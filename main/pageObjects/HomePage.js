@@ -34,7 +34,7 @@ class HomePage {
             await this.page.getByRole('link', { name: productList[i] }).first().click();
             totalPrice = totalPrice + parseInt((((await this.productPriceText.textContent()).split(" *includes tax"))[0].split("$"))[1]);
             this.page.once('dialog', dialog => {
-                console.log(productList[i] + `: ${dialog.message()}`);
+                console.log(productList[i] + ` ${dialog.message()}`);
                 expect(dialog.message()).toContain('Product added');
                 dialog.dismiss().catch(() => { });
             });
@@ -42,7 +42,6 @@ class HomePage {
             await this.page.waitForTimeout(2000);
             await this.homePageCartLink.click();
             await this.homePageLink.click();
-            console.log("Total price: " + totalPrice);
             TestData.set("TotalPrice", totalPrice);
         }
     }
@@ -60,7 +59,6 @@ class HomePage {
         for (const item of response.Items) {
             titleIdMap.set(item.title.trim(), item.id);
         }
-        console.log(titleIdMap);
         return titleIdMap;
     }
 
@@ -79,7 +77,6 @@ class HomePage {
             expect(response.status()).toBe(200);
             cartItems[i] = { cookie: secretsData.get("apiusername") , id: uniqueid, prod_id: titleIdMap.get(productList[i]) };
         }
-        console.log(cartItems);
         return cartItems;
     }
 }

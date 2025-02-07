@@ -48,7 +48,6 @@ class CartPage {
             await this.deleteButtons.first().click();
             await this.page.waitForTimeout(2000);
         }
-        console.log("All items deleted");
         await this.homePageLink.click();
     }
 
@@ -58,7 +57,6 @@ class CartPage {
         await this.placeOrderButton.click();
         await expect(this.checkoutTotalPrice).toContainText((TestData.get("TotalPrice")).toString());
         this.page.once('dialog', dialog => {
-            console.log(dialog.message());
             expect(dialog.message()).toBe('Please fill out Name and Creditcard.');
             dialog.dismiss().catch(() => { });
         });
@@ -98,7 +96,6 @@ class CartPage {
         expect(response.status()).toBe(200);
         const respBody = await response.text();
         expect(respBody).toContain('Item deleted.');
-        console.log(respBody);
     }
 
 
@@ -111,7 +108,6 @@ class CartPage {
         });
         expect(response.status()).toBe(200);
         const responseBody = await response.json();
-        console.log(responseBody);
         expect(responseBody.Items).toHaveLength(cartItems.length);
         for (const item of cartItems) {
             expect(responseBody.Items).toEqual(

@@ -34,7 +34,6 @@ class LoginPage {
           expect(response.status()).toBe(200);
           var data = await response.json();
           var AuthToken = data.split("Auth_token: ")[1];
-          console.log(AuthToken);
           return AuthToken;
     }
 
