@@ -39,5 +39,5 @@ jobs:
       if: always()
       with:
         name: TestDataResults
-        path: resources/resources/TestDataSheet*.xlsx
+        path: resources/TestDataSheet*.xlsx
         retention-days: 30
