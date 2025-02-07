@@ -5,8 +5,11 @@
 1. Visual Studio installed
 2. Node.js installed
 3. Access to Github.com
-4. Demoblaze application credentials (Username and Password)
-
+4. Demoblaze application credentials (Username and Password) -
+    ```sh
+    https://demoblaze.com
+    ```
+    
 ## Configuration Steps for Playwright and Test Automation Repository
 
 1. In Visual Studio, open a new window, navigate to the Source Control section, and clone the repository:
