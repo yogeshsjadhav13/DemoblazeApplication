@@ -17,7 +17,7 @@ use:{
  navigationTimeout: 1000 * 100,
  browserName: 'chromium',
  //...devices['iPad Pro 11 landscape'],
- headless: false,
+ headless: true,
  screenshot: 'only-on-failure',
  //accepts ssl certs related notifications
  ignoreHTTPSErrors: true,

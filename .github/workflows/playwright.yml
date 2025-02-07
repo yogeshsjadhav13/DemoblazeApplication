@@ -22,7 +22,7 @@ jobs:
         BASEURL : ${{ secrets.BASEURL }}
         APIUSERNAME : ${{ secrets.APIUSERNAME }}
         APIPASSWORD : ${{ secrets.APIPASSWORD }}
-      run: npx playwright test --headless
+      run: npx playwright test
     - uses: actions/upload-artifact@v4
       if: always()
       with:
