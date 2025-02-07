@@ -1,4 +1,4 @@
-# Demoblaze Application automation using Playwright
+# Demoblaze Application Automation Using Playwright
 
 ## Pre-requisites
 
