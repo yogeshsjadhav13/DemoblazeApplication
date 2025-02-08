@@ -9,6 +9,9 @@ class CartPage {
         this.productPriceText = page.locator("//table//tbody/tr/td[3]");
         this.productAddToCartLink = page.locator("//a[text()='Add to cart']");
         this.deleteButtons = this.page.locator("//a[text()='Delete']");
+        this.cartProductsText = this.page.locator("//h2[text()='Products']");
+        this.cartTotalText = this.page.locator("//h2[text()='Total']");
+        this.cartTotalPrice = this.page.locator("//h3[@id='totalp']");
         this.placeOrderButton = this.page.locator("//button[text()='Place Order']");
         this.checkoutTotalPrice = this.page.locator("//label[@id='totalm']");
         this.checkoutPurchaseButton = this.page.locator("//button[text()='Purchase']");
@@ -28,12 +31,14 @@ class CartPage {
         var productList = (TestData.get("Products")).split(";");
         var totalCarPrice = 0;
         await this.homePageCartLink.click();
+        await this.cartProductsText.click();
+        await this.cartTotalText.click();
         for (let i = 0; i < productList.length; i++) {
-            await this.page.locator("//table//tbody/tr/td[2][text()='" + productList[i] + "']").click();
-            totalCarPrice = totalCarPrice + parseInt(await this.page.locator("//table//tbody/tr/td[2][text()='" + productList[i] + "']/following-sibling::td[1]").textContent());
+            await this.page.locator("//table//tbody/tr/td[2][text()='" + productList[i] + "']").first().click();
+            totalCarPrice = totalCarPrice + parseInt(await this.page.locator("//table//tbody/tr/td[2][text()='" + productList[i] + "']/following-sibling::td[1]").first().textContent());
         }
         await this.page.locator("//h3[@id='totalp'][text()='" + totalCarPrice + "']").click();
-        await expect(this.page.locator("//h3[@id='totalp']")).toContainText((TestData.get("TotalPrice")).toString());
+        await expect(this.cartTotalPrice).toContainText((TestData.get("TotalPrice")).toString());
         console.log("Total price of the cart is: " + totalCarPrice + " which is same as expected price: " + TestData.get("TotalPrice"));
     }
 
@@ -41,7 +46,8 @@ class CartPage {
 
     async ProductDeleteFromCart() {
         await this.homePageCartLink.click();
-        //await this.page.locator("#totalp").first().click();
+        await this.homePageCartLink.click();
+        await this.cartProductsText.click();
         await this.page.waitForTimeout(2000);
         console.log("Total items to be deleted: " + await this.deleteButtons.count());
         while (await this.deleteButtons.count() > 0) {

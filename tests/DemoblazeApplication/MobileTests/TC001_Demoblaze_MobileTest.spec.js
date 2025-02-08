@@ -3,6 +3,7 @@ const { POManager } = require('../../../main/utilities/POManager');
 const { UtilityFunctions } = require('../../../main/utilities/UtilityFunctions');
 const { expect } = require('@playwright/test');
 const { devices } = require('playwright');
+const path = require('path');
 const TestCaseName = 'TC001_Demoblaze_MobileTest';
 
 
@@ -26,19 +27,25 @@ test('TC001_Demoblaze_MobileTest', async function ({ browser }) {
   //Step 1 - Login to the Demoblaze application
   await loginPage.UserLogin(utilityFunctionLocal);
 
-  //Step 2 - Delete the products in the cart if there are any from previous run
+  //Step 2 - Verify home page display on mobile browser and UI
+  await expect(page).toHaveScreenshot({name: 'MobileHomePage.png', fullPage: true});
+
+  //Step 3 - Delete the products in the cart if there are any from previous run
   await cartPage.ProductDeleteFromCart();
 
-  //Step 3 - Add products to the cart as per the data sheet
+  //Step 4 - Add products to the cart as per the data sheet
   await homePage.ProductAddToCart(LocalTestData);
 
-  //Step 4 - Verify the products in the cart with prices
+  //Step 5 - Verify the products in the cart with prices
   await cartPage.ProductCartVerification(LocalTestData);
 
-  //Step 5 - Checkout the cart and complete the order
+  //Step 6 - Verify cart page display on mobile browser and UI
+  await expect(page).toHaveScreenshot({name:'MobileCartPage.png', fullPage: true, maxDiffPixelRatio: 0.02});
+
+  //Step 7 - Checkout the cart and complete the order
   await cartPage.CartCheckout(utilityFunctionLocal, LocalTestData);
 
-  //Step 6 - Write the total price to the data sheet
+  //Step 8 - Write the total price to the data sheet
   utilityFunctionLocal.WriteDataToExcel("TotalPrice", LocalTestData.get("TotalPrice"));
 
   //Close all browserss
