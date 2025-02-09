@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "cucumbertests": "npx cucumber-js --retry 1 --exit --format html:cucumber-report.html"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

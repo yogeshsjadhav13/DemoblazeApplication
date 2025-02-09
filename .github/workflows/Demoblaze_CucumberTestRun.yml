@@ -1,0 +1,43 @@
+name: Application Demoblaze Cucumber Test Run
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Run Playwright tests
+      env:
+        ENVIRONMENT: UATEnvironment
+        ENVIRONMENTURL: ${{ secrets.ENVIRONMENTURL }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        BASEURL : ${{ secrets.BASEURL }}
+        APIUSERNAME : ${{ secrets.APIUSERNAME }}
+        APIPASSWORD : ${{ secrets.APIPASSWORD }}
+      run: npm run cucumbertests
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: Screenshots
+        path: test-results/
+        retention-days: 30
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: cucumber-report
+        path: cucumber-report.html
+        retention-days: 30
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: TestDataResults
+        path: resources/TestDataSheet*.xlsx
+        retention-days: 30

@@ -49,7 +49,7 @@ class HomePage {
 
     async apiFetchProductsEntries(utilityFunction) {
         const secretsData = await utilityFunction.fetchEnvironmentCreds();
-        const apiRequest = await request.newContext();
+        const apiRequest = await request.newContext({ignoreHTTPSErrors: true,});
         const res = await apiRequest.get(secretsData.get("baseURL") + "/entries", {
             headers: { 'Content-Type': 'application/json' }
         });
@@ -66,7 +66,7 @@ class HomePage {
     async apiProductAddToCart(utilityFunction, TestData, AuthToken, titleIdMap) {
         var cartItems = [];
         const secretsData = await utilityFunction.fetchEnvironmentCreds();
-        const apiRequest = await request.newContext();
+        const apiRequest = await request.newContext({ignoreHTTPSErrors: true,});
         var uniqueid;
         var productList = (TestData.get("Products")).split(";");
         for (let i = 0; i < productList.length; i++) {

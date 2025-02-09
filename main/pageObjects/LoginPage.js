@@ -25,7 +25,7 @@ class LoginPage {
 
     async apiUserLogin(utilityFunction){
         const secretsData = await utilityFunction.fetchEnvironmentCreds();
-        const apiRequest = await request.newContext();
+        const apiRequest = await request.newContext({ignoreHTTPSErrors: true,});
           var response = await apiRequest.post(secretsData.get("baseURL") + "/login",
             {
               headers: { "content-type": "application/json" },

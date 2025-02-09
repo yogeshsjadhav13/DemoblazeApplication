@@ -1,4 +1,4 @@
-name: Application Demoblaze
+name: Application Demoblaze Playwright Test Run
 on:
   workflow_dispatch:
 jobs:
