@@ -7,7 +7,7 @@ const config = {
   workers: 1,
   timeout: 100000,
   expect: {
-    timeout: 100000
+    timeout: 30000
   },
 reporter: 'html',
 //reporter: [['list', { printSteps: false }]],
