@@ -1,9 +1,10 @@
-const { expect, request } = require('@playwright/test');
+const { expect } = require('@playwright/test');
 
 class HomePage {
 
-    constructor(page) {
+    constructor(page, apiContext) {
         this.page = page;
+        this.apiContext = apiContext;
         this.categoriesMonitorsLink = page.locator("//a[text()='Monitors']");
         this.categoriesLaptopsLink = page.locator("//a[text()='Laptops']");
         this.categoriesPhonesLink = page.locator("//a[text()='Phones']");
@@ -49,8 +50,7 @@ class HomePage {
 
     async apiFetchProductsEntries(utilityFunction) {
         const secretsData = await utilityFunction.fetchEnvironmentCreds();
-        const apiRequest = await request.newContext({ignoreHTTPSErrors: true,});
-        const res = await apiRequest.get(secretsData.get("baseURL") + "/entries", {
+        const res = await this.apiContext.get(secretsData.get("baseURL") + "/entries", {
             headers: { 'Content-Type': 'application/json' }
         });
         expect(res.status()).toBe(200);
@@ -66,12 +66,11 @@ class HomePage {
     async apiProductAddToCart(utilityFunction, TestData, AuthToken, titleIdMap) {
         var cartItems = [];
         const secretsData = await utilityFunction.fetchEnvironmentCreds();
-        const apiRequest = await request.newContext({ignoreHTTPSErrors: true,});
         var uniqueid;
         var productList = (TestData.get("Products")).split(";");
         for (let i = 0; i < productList.length; i++) {
             uniqueid = await utilityFunction.generateRandomString();
-            var response = await apiRequest.post(secretsData.get("baseURL") + "/addtocart", {
+            var response = await this.apiContext.post(secretsData.get("baseURL") + "/addtocart", {
                 data: { "id": uniqueid, "cookie": AuthToken, "prod_id": titleIdMap.get(productList[i]), "flag": true }
             });
             expect(response.status()).toBe(200);

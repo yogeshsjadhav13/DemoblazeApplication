@@ -3,11 +3,12 @@ const { HomePage } = require('../pageObjects/HomePage');
 const { CartPage } = require('../pageObjects/CartPage');
 
 class POManager {
-    constructor(page) {
+    constructor(page, apiContext) {
         this.page = page;
-        this.loginPage = new LoginPage(this.page);
-        this.homePage = new HomePage(this.page);
-        this.cartPage = new CartPage(this.page);
+        this.apiContext = apiContext;
+        this.loginPage = new LoginPage(this.page, this.apiContext);
+        this.homePage = new HomePage(this.page, this.apiContext);
+        this.cartPage = new CartPage(this.page, this.apiContext);
     }
     getLoginPage() {
         return this.loginPage;

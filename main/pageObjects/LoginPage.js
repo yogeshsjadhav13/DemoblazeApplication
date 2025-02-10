@@ -1,9 +1,10 @@
-const { expect, request } = require('@playwright/test');
+const { expect } = require('@playwright/test');
 
 class LoginPage {
 
-    constructor(page) {
+    constructor(page, apiContext) {
         this.page = page;
+        this.apiContext = apiContext;
         this.homePageLoginLink = page.locator("//a[text()='Log in']");
         this.usernameTextbox = page.locator("//input[@id='loginusername']");
         this.passwordTextbox = page.locator("//input[@id='loginpassword']");
@@ -25,8 +26,7 @@ class LoginPage {
 
     async apiUserLogin(utilityFunction){
         const secretsData = await utilityFunction.fetchEnvironmentCreds();
-        const apiRequest = await request.newContext({ignoreHTTPSErrors: true,});
-          var response = await apiRequest.post(secretsData.get("baseURL") + "/login",
+          var response = await this.apiContext.post(secretsData.get("baseURL") + "/login",
             {
               headers: { "content-type": "application/json" },
               data: { "username": secretsData.get("apiusername"), "password": secretsData.get("apipassword") }

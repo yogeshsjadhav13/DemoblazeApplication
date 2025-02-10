@@ -1,4 +1,3 @@
-const { expect } = require('@playwright/test');
 const ExcelJS = require('exceljs');
 
 class UtilityFunctions {
@@ -129,7 +128,6 @@ class UtilityFunctions {
         if (testName.includes('Demoblaze')) {
             Sheet = 'Demoblaze';
         }
-        // Example usage
         var testCaseName = this.TestCaseName;
         var columnName = columnName;
         var workbook = new ExcelJS.Workbook();

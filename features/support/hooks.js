@@ -6,12 +6,12 @@ const { devices } = require('playwright');
 Before({ tags: "@WebTests or @APITests" }, async function () {
     //Setting up first browser page
     this.browser = await playwright.chromium.launch({ headless: true });
-    this.requestContext = await playwright.request.newContext({ignoreHTTPSErrors: true,});
+    this.apiContext = await playwright.request.newContext({ignoreHTTPSErrors: true,});
     this.context = await this.browser.newContext({ignoreHTTPSErrors: true,});
     this.page = await this.context.newPage();
 
     //Test Object setup - Create Objects of pages to work with
-    this.poManager = new POManager(this.page);
+    this.poManager = new POManager(this.page, this.apiContext);
     this.loginPage = this.poManager.getLoginPage();
     this.homePage = this.poManager.getHomePage();
     this.cartPage = this.poManager.getCartPage();

@@ -1,4 +1,4 @@
-const { test} = require('@playwright/test');
+const { test, request} = require('@playwright/test');
 const { POManager } = require('../../../main/utilities/POManager');
 const { UtilityFunctions } = require('../../../main/utilities/UtilityFunctions');
 const TestCaseName = 'TC001_Demoblaze_APITest';
@@ -10,9 +10,10 @@ test('TC001_Demoblaze_APITest', async function ({ browser }) {
   //Setting up first browser page
   const context = await browser.newContext();
   const page = await context.newPage();
+  const apiContext = await request.newContext({ignoreHTTPSErrors: true,});
 
   //Test Object setup - Create Objects of pages to work with
-  const poManager = new POManager(page);
+  const poManager = new POManager(page, apiContext);
   const loginPage = poManager.getLoginPage();
   const homePage = poManager.getHomePage();
   const cartPage = poManager.getCartPage();

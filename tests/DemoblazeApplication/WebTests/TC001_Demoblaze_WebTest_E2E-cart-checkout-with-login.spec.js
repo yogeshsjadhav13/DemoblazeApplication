@@ -1,7 +1,6 @@
-const { test } = require('@playwright/test');
+const { test, request, expect} = require('@playwright/test');
 const { POManager } = require('../../../main/utilities/POManager');
 const { UtilityFunctions } = require('../../../main/utilities/UtilityFunctions');
-const { expect } = require('@playwright/test');
 const TestCaseName = 'TC001_Demoblaze_WebTest';
 
 
@@ -10,9 +9,10 @@ test('TC001_Demoblaze_WebTest_Perform-end-to-end-cart-checkout-functionality-wit
   //Setting up first browser page
   const context = await browser.newContext();
   const page = await context.newPage();
+  const apiContext = await request.newContext({ignoreHTTPSErrors: true,});
 
   //Test Object setup - Create Objects of pages to work with
-  const poManager = new POManager(page);
+  const poManager = new POManager(page, apiContext);
   const loginPage = poManager.getLoginPage();
   const homePage = poManager.getHomePage();
   const cartPage = poManager.getCartPage();

@@ -1,9 +1,10 @@
-const { expect, request } = require('@playwright/test');
+const { expect } = require('@playwright/test');
 
 class CartPage {
 
-    constructor(page) {
+    constructor(page, apiContext) {
         this.page = page;
+        this.apiContext = apiContext;
         this.homePageCartLink = page.locator("//a[text()='Cart']");
         this.homePageLink = page.locator("//a[contains(text(),'Home')]");
         this.productPriceText = page.locator("//table//tbody/tr/td[3]");
@@ -94,8 +95,7 @@ class CartPage {
 
     async apiDeleteCart(utilityFunction) {
         const secretsData = await utilityFunction.fetchEnvironmentCreds();
-        const apiRequest = await request.newContext({ignoreHTTPSErrors: true,});
-        var response = await apiRequest.post(secretsData.get("baseURL") + "/deletecart", {
+        var response = await this.apiContext.post(secretsData.get("baseURL") + "/deletecart", {
             headers: { 'Content-Type': 'application/json' },
             data: { "cookie": secretsData.get("apiusername") }
         });
@@ -107,8 +107,7 @@ class CartPage {
 
     async apiViewCart(utilityFunction, AuthToken, cartItems) {
         const secretsData = await utilityFunction.fetchEnvironmentCreds();
-        const apiRequest = await request.newContext({ignoreHTTPSErrors: true,});
-        var response = await apiRequest.post(secretsData.get("baseURL") + "/viewcart", {
+        var response = await this.apiContext.post(secretsData.get("baseURL") + "/viewcart", {
             headers: { 'Content-Type': 'application/json' },
             data: { "cookie": AuthToken, "flag": true }
         });

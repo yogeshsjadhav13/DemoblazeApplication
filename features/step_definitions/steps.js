@@ -1,5 +1,4 @@
 const { Given, When, Then } = require('@cucumber/cucumber')
-const { test, expect } = require('@playwright/test');
 const { UtilityFunctions } = require('../../main/utilities/UtilityFunctions');
 var { setDefaultTimeout } = require('@cucumber/cucumber');
 setDefaultTimeout(100 * 1000);
@@ -56,52 +55,52 @@ Given('User is not logged into Demoblaze application for {string}', async functi
     this.utilityFunctionLocal = new UtilityFunctions(TestCaseName);
     this.LocalTestData = await this.utilityFunctionLocal.ReadDataFromExcel();
 
-    //Step 1 - Navigate to the Demoblaze application and without login proceed with car functionality
+    //Navigate to the Demoblaze application and without login proceed with car functionality
     await this.page.goto('https://www.demoblaze.com/index.html');
 });
 
 
 
 Given('a user authenticates to Demoblaze application for {string}', async function (TestCaseName) {
-    //Step 1 - Test data setup - Read test case Data
+    //Test data setup - Read test case Data
     this.utilityFunctionLocal = new UtilityFunctions(TestCaseName);
     this.LocalTestData = await this.utilityFunctionLocal.ReadDataFromExcel();
 
-    //Step 2 - Autheniticate to demoblaze application
+    //Autheniticate to demoblaze application
     this.AuthToken = await this.loginPage.apiUserLogin(this.utilityFunctionLocal);
 });
 
 
 
 When('deletecart api is completed', async function () {
-    //Step 3 - Delete the products in the cart if there are any from previous run
+    //Delete the products in the cart if there are any from previous run
     await this.cartPage.apiDeleteCart(this.utilityFunctionLocal);
 });
 
 
 
 When('all products entries are fetched and created a map of title and id', async function () {
-    //Step 4 - Fetch all product entries from the application and create a map of title and id
+    //Fetch all product entries from the application and create a map of title and id
     this.titleIdMap = await this.homePage.apiFetchProductsEntries(this.utilityFunctionLocal);
 });
 
 
 
 When('Products are added using addtocart api', async function () {
-    //Step 5 - Add products to the cart as per the data sheet
+    //Add products to the cart as per the data sheet
     this.cartItems = await this.homePage.apiProductAddToCart(this.utilityFunctionLocal, this.LocalTestData, this.AuthToken, this.titleIdMap);
 });
 
 
 
 Then('verify product are added in the cart', async function () {
-    //Step 6 - Verify the products in the cart
+    //Verify the products in the cart
     await this.cartPage.apiViewCart(this.utilityFunctionLocal, this.AuthToken, this.cartItems);
 });
 
 
 
 Then('deletecart api is executed', async function () {
-    //Step 7 - Run delete API to delete the products from the cart
+    //Run delete API to delete the products from the cart
     await this.cartPage.apiDeleteCart(this.utilityFunctionLocal);
 });

@@ -1,9 +1,7 @@
-const { test } = require('@playwright/test');
+const { test, request, expect} = require('@playwright/test');
 const { POManager } = require('../../../main/utilities/POManager');
 const { UtilityFunctions } = require('../../../main/utilities/UtilityFunctions');
-const { expect } = require('@playwright/test');
 const { devices } = require('playwright');
-const path = require('path');
 const TestCaseName = 'TC001_Demoblaze_MobileTest';
 
 
@@ -13,9 +11,10 @@ test('TC001_Demoblaze_MobileTest', async function ({ browser }) {
   var iphone15 = devices['iPhone 15 Pro Max'];
   var context = await browser.newContext({...iphone15,});
   const page = await context.newPage();
+  const apiContext = await request.newContext({ignoreHTTPSErrors: true,});
   
   //Test Object setup - Create Objects of pages to work with
-  const poManager = new POManager(page);
+  const poManager = new POManager(page, apiContext);
   const loginPage = poManager.getLoginPage();
   const homePage = poManager.getHomePage();
   const cartPage = poManager.getCartPage();
